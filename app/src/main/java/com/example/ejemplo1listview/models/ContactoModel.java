@@ -1,6 +1,8 @@
 package com.example.ejemplo1listview.models;
 
-public class ContactoModel {
+import java.io.Serializable;
+
+public class ContactoModel implements Serializable {
     private int _id;
     private String _nombre;
     private String _numero;

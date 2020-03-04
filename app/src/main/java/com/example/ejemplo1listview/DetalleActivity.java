@@ -2,6 +2,7 @@ package com.example.ejemplo1listview;
 
 import android.os.Bundle;
 
+import com.example.ejemplo1listview.models.ContactoModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,9 +25,12 @@ public class DetalleActivity extends AppCompatActivity {
 
         tv_detalle_informacion = findViewById(R.id.tv_detalle_informacion);
 
-        String response = getIntent().getStringExtra("item");
+        ContactoModel response = (ContactoModel) getIntent().getSerializableExtra("item");
 
-        tv_detalle_informacion.setText(response);
+        String nombreMostrar = response.get_nombre() + " - " + response.get_numero();
+        String estadoMostrar = "Estado: " + response.get_estado();
+
+        tv_detalle_informacion.setText("Detalle: \n\n" + nombreMostrar + "\n" +estadoMostrar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

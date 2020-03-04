@@ -3,6 +3,7 @@ package com.example.ejemplo1listview;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.ejemplo1listview.adapters.ContactoAdapter;
 import com.example.ejemplo1listview.models.ContactoModel;
 import com.example.ejemplo1listview.operations.ContactoOperations;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView lv_main_contactos;
     private ContactoOperations contactoOperations;
     private ArrayList<ContactoModel> list;
-    private ArrayList<String> listString;
-    private ArrayAdapter<String> itemsAdapter;
+    private ContactoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +40,17 @@ public class MainActivity extends AppCompatActivity {
         lv_main_contactos = findViewById(R.id.lv_main_contactos);
         contactoOperations = new ContactoOperations(getApplicationContext());
 
-        listString = contactoOperations.selectAllString();
+        list = contactoOperations.selectAll();
         contactoOperations.close();
 
-        itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listString);
-        lv_main_contactos.setAdapter(itemsAdapter);
+        adapter = new ContactoAdapter(list, getApplicationContext());
+
+        lv_main_contactos.setAdapter(adapter);
 
         lv_main_contactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String seleccionado = listString.get(position);
+                ContactoModel seleccionado = list.get(position);
                 Intent detalle = new Intent(MainActivity.this, DetalleActivity.class);
                 detalle.putExtra("item", seleccionado);
                 startActivity(detalle);
